@@ -1,5 +1,36 @@
-boy = 1.00 / 2.09
-girl = 1.09 / 2.09
-sum = boy**6 + 6*boy**5*girl +\
-      15*boy**4*girl**2
-print  float('%.3f' % float(sum))
+xp, yp = 3, 9
+fx, fy = 5, 1
+a, b = 7, 20
+
+grid = ['%%%%%%%%%%%%%%%%%%%%',
+        '%--------------%---%',
+        '%-%%-%%-%%-%%-%%-%-%',
+        '%--------P-------%-%',
+        '%%%%%%%%%%%%%%%%%%-%',
+        '%.-----------------%',
+        '%%%%%%%%%%%%%%%%%%%%']
+
+
+stack = [(xp, yp)]
+path = [(xp, yp)]
+
+while stack:
+    cp = stack.pop(-1)
+    if cp[0] == fx and cp[1] == fy:
+        break
+
+    elif grid[cp[0] - 1][cp[1]] == '-':
+        stack.append((cp[0] - 1, cp[1]))
+        path.append((cp[0] - 1, cp[1]))
+
+    elif grid[cp[0]][cp[1] - 1] == '-':
+        stack.append((cp[0], cp[1] - 1))
+        path.append((cp[0], cp[1] - 1))
+
+    elif grid[cp[0]][cp[1] + 1] == '-':
+        stack.append((cp[0], cp[1] + 1))
+        path.append((cp[0], cp[1] + 1))
+
+    elif grid[cp[0] + 1][cp[1]] == '-':
+        stack.append((cp[0] + 1, cp[1]))
+        path.append((cp[0] + 1, cp[1]))
