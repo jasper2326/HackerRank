@@ -6,5 +6,4 @@ class Solution:
     """
     def strStr(self, source, target):
         # write your code here
-        if not source or not target:
-            return -1
+        return source.find(target)

@@ -1,36 +1,12 @@
-xp, yp = 3, 9
-fx, fy = 5, 1
-a, b = 7, 20
+import re
 
-grid = ['%%%%%%%%%%%%%%%%%%%%',
-        '%--------------%---%',
-        '%-%%-%%-%%-%%-%%-%-%',
-        '%--------P-------%-%',
-        '%%%%%%%%%%%%%%%%%%-%',
-        '%.-----------------%',
-        '%%%%%%%%%%%%%%%%%%%%']
+n = int(input())
+tags = []
+for i in range(n):
+    text = input()
+    match = re.findall(r'<(\w+)', text)
+    for item in match:
+        if item not in tags:
+            tags.append(item)
 
-
-stack = [(xp, yp)]
-path = [(xp, yp)]
-
-while stack:
-    cp = stack.pop(-1)
-    if cp[0] == fx and cp[1] == fy:
-        break
-
-    elif grid[cp[0] - 1][cp[1]] == '-':
-        stack.append((cp[0] - 1, cp[1]))
-        path.append((cp[0] - 1, cp[1]))
-
-    elif grid[cp[0]][cp[1] - 1] == '-':
-        stack.append((cp[0], cp[1] - 1))
-        path.append((cp[0], cp[1] - 1))
-
-    elif grid[cp[0]][cp[1] + 1] == '-':
-        stack.append((cp[0], cp[1] + 1))
-        path.append((cp[0], cp[1] + 1))
-
-    elif grid[cp[0] + 1][cp[1]] == '-':
-        stack.append((cp[0] + 1, cp[1]))
-        path.append((cp[0] + 1, cp[1]))
+print(';'.join(sorted(set(tags))))
