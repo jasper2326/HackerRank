@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 
 def plot_feature_importances(feature_importances, title, feature_names):
     feature_importances = 100.0 * (feature_importances/max(feature_importances))
-
+    #print(feature_importances)
     index_sorted = np.flipud(np.argsort(feature_importances))
     pos = np.arange(index_sorted.shape[0]) + 0.5
 
@@ -22,12 +22,11 @@ def plot_feature_importances(feature_importances, title, feature_names):
     plt.title(title)
     plt.show()
 
-
 def load_dataset(filename):
     file_reader = csv.reader(open(filename, 'r'), delimiter=',')
     X, y = [], []
     for row in file_reader:
-        X.append(row[2:13])
+        X.append(row[2:15])
         y.append(row[-1])
 
     # Extract feature names
@@ -42,22 +41,24 @@ def load_dataset(filename):
 X, y, feature_names = load_dataset('/Users/jasper/Desktop/HackerRank/PMLC/Ch01/bike_day.csv')
 X, y = shuffle(X, y, random_state=7)
 
-num_training = int(0.9*len(X))
+# Split the data 80/20 (80% for training, 20% for testing)
+num_training = int(0.9 * len(X))
 X_train, y_train = X[:num_training], y[:num_training]
 X_test, y_test = X[num_training:], y[num_training:]
 
-rf_regressor = RandomForestRegressor(n_estimators=1000,
-                                     max_depth=10,
-                                     min_samples_split=1.0)
+# Fit Random Forest regression model
+rf_regressor = RandomForestRegressor(n_estimators=1000, max_depth=10, min_samples_split=1.0)
 rf_regressor.fit(X_train, y_train)
 
+# Evaluate performance of Random Forest regressor
 y_pred = rf_regressor.predict(X_test)
 mse = mean_squared_error(y_test, y_pred)
 evs = explained_variance_score(y_test, y_pred)
+print("\n#### Random Forest regressor performance ####")
+print("Mean squared error =", round(mse, 2))
+print("Explained variance score =", round(evs, 2))
 
-print(round(mse, 2))
-print(round(evs, 2))
+# Plot relative feature importances
+plot_feature_importances(rf_regressor.feature_importances_, 'Random Forest regressor', feature_names)
 
-plot_feature_importances(rf_regressor.feature_importances_,
-                         'Random Forest',
-                         feature_names)
+print(rf_regressor.feature_importances_)
