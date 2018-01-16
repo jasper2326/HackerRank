@@ -34,4 +34,3 @@ for i in input_datapoints:
 
 svm.plot_classifier(classifier, input_datapoints, [0]*len(input_datapoints), 'Input datapoints', 'True')
 plt.show()
-
