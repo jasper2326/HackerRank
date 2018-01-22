@@ -22,7 +22,8 @@ n_neighbors = 8
 
 
 knn_regressor = neighbors.KNeighborsRegressor(n_neighbors,
-                                              weights='distance')
+                                              weights='distance',
+                                              algorithm='auto')
 knn_regressor.fit(X, y)
 y_values = knn_regressor.predict(x_values)
 
