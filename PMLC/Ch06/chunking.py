@@ -24,7 +24,6 @@ if __name__ == '__main__':
     # Read the data from the Brown corpus
     data = ' '.join(brown.words()[:10000])
 
-    # Number of words in each chunk
     num_words = 1700
 
     chunks = []
