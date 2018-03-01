@@ -1,11 +1,12 @@
+import copy
 import math
 
 
-def thread(iEThreshold, cDThreshold, rPThreshold):
+def thread(iEThreshold, cDThreshold, rPThreshold, characterNum):
     # load data
     data, elements = dataLoader()
-    # get posible feature combinations
-    candidates = getCandidates()
+    # get possible feature combinations
+    candidates = getCandidates(characterNum)
 
     result = []
     final = []
@@ -69,7 +70,7 @@ def dataLoader():
     for lines in file.readlines():
         line = lines.strip().split(',')
         # features are stored as a tuple
-        key = tuple(line[0:4])
+        key = ''.join(line[0:4])
         # values are stored as a list
         if key in elements:
             data[key].append([int(line[-2]), int(line[-1])])
@@ -81,12 +82,20 @@ def dataLoader():
     return data, elements
 
 
-def getCandidates():
-    import itertools
-    result = []
-
-    for item in itertools.permutations('0000aaaabbbbcccc', 4):
-        result.append(item)
+def getCandidates(characterNum):
+    digits = '0' * characterNum
+    chr = ["0abc"]
+    res = []
+    for i in range(0, len(digits)):
+        num = int(digits[i])
+        tmp = []
+        for j in range(0, len(chr[num])):
+            if len(res):
+                for k in range(0, len(res)):
+                    tmp.append(res[k] + chr[num][j])
+            else:
+                tmp.append(str(chr[num][j]))
+        res = copy.copy(tmp)
 
     def count0(word1):
         length = 0
@@ -95,10 +104,11 @@ def getCandidates():
                 length += 1
         return length
 
-    return sorted(set(result), key=count0, reverse=True)[1:]
+    return sorted(res, key=count0, reverse=True)[1:]
 
 
 def evaluate(source, target):
+    # test if target is a subset of source
     for i in range(len(source)):
         if source[i] == '0':
             continue
@@ -108,6 +118,7 @@ def evaluate(source, target):
 
 
 def getSubstes(elements, p):
+    # get all p's subsets in elements
     result = []
     for element in elements:
         if evaluate(p, element):
@@ -160,7 +171,7 @@ def getRP(data, elements, p):
 data, elements = dataLoader()
 #print(data)
 #print(elements)
-cans = getCandidates()
+cans = getCandidates(4)
 #print(type(cans))
 #print(cans)
 #print(evaluate(('c', '0', '0', '0'), ('c', 'a', '0', '0')))
@@ -170,5 +181,5 @@ cans = getCandidates()
 #print(isolationPower(data, elements, ('c', 'a', '0', '0')))
 #print(getRP(data, elements, ('a', '0', '0', '0')))
 
-decide = sorted(thread(300, 100, 0.1), key=lambda x: x[1], reverse=True)
+decide = sorted(thread(300, 100, 0.1, 4), key=lambda x: x[1], reverse=True)
 print(decide)
