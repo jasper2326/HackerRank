@@ -2,7 +2,7 @@ import copy
 import math
 
 
-def thread(iEThreshold, cDThreshold, rPThreshold, characterNum):
+def mainThread(iEThreshold, cDThreshold, rPThreshold, characterNum):
     # load data
     data, elements = dataLoader()
     # get possible feature combinations
@@ -168,10 +168,10 @@ def getRP(data, elements, p):
     return pa * math.log2(pa/pb)
 
 
-data, elements = dataLoader()
+#data, elements = dataLoader()
 #print(data)
 #print(elements)
-cans = getCandidates(4)
+#cans = getCandidates(4)
 #print(type(cans))
 #print(cans)
 #print(evaluate(('c', '0', '0', '0'), ('c', 'a', '0', '0')))
@@ -181,5 +181,5 @@ cans = getCandidates(4)
 #print(isolationPower(data, elements, ('c', 'a', '0', '0')))
 #print(getRP(data, elements, ('a', '0', '0', '0')))
 
-decide = sorted(thread(300, 100, 0.1, 4), key=lambda x: x[1], reverse=True)
+decide = sorted(mainThread(300, 50, 0.1, 4), key=lambda x: x[1], reverse=True)
 print(decide)
