@@ -20,9 +20,10 @@ class Solution:
         left, right = 1, 2
         result = []
         while left * 2 + 1 <= target:
-            if sum(range(left, right + 1)) == target:
-                result.append(range(left, right + 1))
-            elif sum(range(left, right + 1)) < target:
+            if sum(list(range(left, right + 1))) == target:
+                result.append(list(range(left, right + 1)))
+                left += 1
+            elif sum(list(range(left, right + 1))) < target:
                 right += 1
             else:
                 left += 1
